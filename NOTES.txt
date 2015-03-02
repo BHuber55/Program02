@@ -1,0 +1,46 @@
+low level data structs
+
+array
+linked
+
+enque		enguedeque
+deque		dequedeque
+
+
+stack		deque
+-what		-how
+
+using a deque to create your stack
+
+no reason to make widget templated
+^^^^^^^^^^^^^^^^^^^^^^^
+class widget
+{
+	private:	
+		double cost;
+}
+getCost();
+constructor();
+~deconstructor();
+^^belong in the above class.
+
+class InventoryManager
+{
+	private:
+		//request LIFO (stack)
+		//request FIFO (que)
+
+		SP<widget>*
+		QD<widget>*
+}
+
+_________________________
+profit = revenue - cost;
+//LIFO  is good for taxes;
+//FIFO is good for share holders
+
+//if you sell more than you have in the stack
+//sell as many as you can and then return whenever you cant sell more.
+
+//all user interactoin should be in the driver
+//all cout << should be in the driver as well.
