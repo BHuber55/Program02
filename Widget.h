@@ -1,32 +1,18 @@
-#include <iostream>
+#if !defined NULL
+#define NULL 0
+#endif
 
-using namespace std;
+#include "DequeArray.h"
 
-//no need to template this.. no reason to make it templated.
+//no reason to make it templated.
 class Widget
 {
 	private:
-		double cost;
-		double revenue; //?
+		double cost;		//cost of ea widget.
 
 	public:
-		Widget();
+		Widget(double price);
 		~Widget();
+
 		double getCost();
-
 };
-
-Widget::Widget()
-{
-
-}
-
-Widget::~Widget
-{
-
-}
-
-double Widget::getCost()
-{
-	return cost;
-}

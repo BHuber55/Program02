@@ -2,12 +2,15 @@
 #define NULL 0
 #endif
 
+#if !defined (DEQUEARRAY_H)
+#define DEQUEARRAY_H
+
 #include <iostream>
 
 using namespace std;
 
 template < class T >
-class DequeDriver
+class DequeArray
 {
 	private:
 		T** items;
@@ -16,15 +19,18 @@ class DequeDriver
 		int max;
 		int sz;
 
+		void resize();
+
 	public: 
 		DequeArray();
 		~DequeArray();
 
 		bool isEmpty();
 		int size();
-		void resize();
 		void dequeueAll();
+		void push(T* item);
 		T* peek();
+		T* pop();
 		void enqueue(T* item);
 		T* dequeue();
 		T* peekDeque();
@@ -33,7 +39,7 @@ class DequeDriver
 };
 
 template < class T >
-DequeDriver::DequeArray()
+DequeArray<T>::DequeArray()
 {
 	max = 2;
 	items = new T*[max];
@@ -43,25 +49,25 @@ DequeDriver::DequeArray()
 }
 
 template < class T >
-DequeDriver::~DequeArray()
+DequeArray<T>::~DequeArray()
 {
 	delete[] items;
 }
 
 template < class T >
-bool DequeDriver::isEmpty()
+bool DequeArray<T>::isEmpty()
 {
 	return sz == 0;
 }
 
 template < class T >
-int DequeDriver::size()
+int DequeArray<T>::size()
 {
 	return sz;
 }
 
 template < class T >
-void DequeDriver::resize()
+void DequeArray<T>::resize()
 {
 	T** temp = new T*[max * 2];
 	int j = front;
@@ -75,49 +81,55 @@ void DequeDriver::resize()
 			j = 0;
 		}
 	}
+
+	front = 0;
+	back = sz - 1;
+	max = max*2;
+
+	delete[] items;
+	items = temp;
 }
 
 template < class T >
-void DequeDriver::dequeueAll()
+void DequeArray<T>::dequeueAll()
 {
 	delete[] items;
 	DequeArray();
 }
 
 template < class T >
-T* DequeDriver::peek()
+T* DequeArray<T>::peek()
 {
 	T* item = NULL;
 
 	if (!isEmpty())
 	{
-		item = items[front]
+		item = items[front];
 	}
 
 	return item;
 }
-
+ 
 template < class T >
-void DequeDriver::enqueue(T* item)
+void DequeArray<T>::enqueue(T* item)
 {
 	if (sz == max)
 	{
 		resize();
 	}
 
-	//back = (back + 1) % max;
 	back = back + 1;
 	if (back == max)
 	{
 		back = 0;
 	}
-	items[back] = item;
 
+	items[back] = item;
 	sz++;
 }
 
 template < class T >
-T* DequeDriver::dequeue()
+T* DequeArray<T>::dequeue()
 {
 	T* item = NULL;
 
@@ -125,33 +137,69 @@ T* DequeDriver::dequeue()
 	{
 		item = items[front];
 		items[front] = NULL;
-		//front = (front + 1) % max;
 		front = front + 1;
 		
 		if (front == max)
 		{
-			front = 0
+			front = 0;
 		}
 
-		sz++;
+		sz--;
 	}
 	return item;
 }
 
 template < class T >
-T* DequeDriver::peekDeque()
+T* DequeArray<T>::peekDeque()
 {
-
+	//stil dont know. will come back and make sure this is right later.
+	T* item = NULL;
+	if (!isEmpty())
+	{
+		item = items[back];
+	}
+	return item;
 }
 
 template < class T >
-void DequeDriver::enqueueDeque(T* item)
+void DequeArray<T>::enqueueDeque(T* item)
 {
+	if (sz == max)
+	{
+		resize();
+	}
 
+	front = front - 1;
+
+	if (front < 0)
+	{
+		front = max - 1;
+	}
+
+	items[front] = item;
+
+
+	sz++;
 }
 
 template < class T >
-T* DequeDriver::dequeueDeque()
+T* DequeArray<T>::dequeueDeque()
 {
+	T* item = NULL;
 
+	if (!isEmpty())
+	{
+
+		item = items[back];
+		items[back] = NULL;
+		back = back - 1;
+		if (back < 0)
+		{
+			back = max - 1;
+		}
+		sz--;
+	}
+	return item;
 }
+
+#endif
